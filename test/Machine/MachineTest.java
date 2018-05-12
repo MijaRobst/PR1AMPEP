@@ -46,14 +46,24 @@ public class MachineTest {
     @Test
     public void machine_notifies_when_repaired() {
         m.setBroken();
-        obs.hasChanged();
+        obs.changed = false;
         m.repair();
         assertTrue(obs.hasChanged());
+    }
+    
+    @Test
+    public void machine_notifies_once_if_repaired_twice() {
+        m.setBroken();
+        obs.changed = false;
+        m.repair();
+        obs.changed = false;
+        m.repair();
+        assertFalse(obs.hasChanged());
     }
 
     private static class ObserverSpy implements Observer {
 
-        private boolean changed = false; // How to make it not settable from outside?
+        private boolean changed = false;
 
         @Override
         public void update(Observable o, Object arg) {
