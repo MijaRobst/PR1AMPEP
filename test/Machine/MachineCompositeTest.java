@@ -79,7 +79,7 @@ public class MachineCompositeTest {
     @Test
     public void machine_notifies_if_one_component_breaks() {
         m1.setBroken();
-        assertEquals(obs.mc, m1);
+        assertEquals(obs.mc, mc);
     }
     
     @Test
@@ -87,7 +87,7 @@ public class MachineCompositeTest {
         m1.setBroken();
         obs.mc = null;
         m1.repair();
-        assertEquals(obs.mc, m1);
+        assertEquals(obs.mc, mc);
     }
     
     @Test
@@ -112,8 +112,9 @@ public class MachineCompositeTest {
         Machine otherM = new Machine();
         MachineComposite other = buildMachine(new Machine(), otherM);
         otherM.setBroken();
-        mc.addComponent(other);
         
+        mc.addComponent(other);
+        assertEquals(obs.mc, (MachineComponent) mc);
     }
     
     @Test
@@ -142,7 +143,7 @@ public class MachineCompositeTest {
         
         @Override
         public void update(Observable o, Object arg) {
-            mc = (MachineComponent) arg;
+            mc = (MachineComponent) o;
         }
         
         public MachineComponent get() {

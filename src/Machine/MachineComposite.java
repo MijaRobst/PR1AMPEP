@@ -10,14 +10,14 @@ public class MachineComposite extends MachineComponent implements Observer {
 
     private List<MachineComponent> components = new ArrayList<>();
     private boolean broken = false; // Independent from components
-    private int brokenComponents = 0; // Use list to keep track of changes?
+    private int brokenComponents = 0;
     
     @Override
     public void setBroken() {
         if (!isBroken())
             setChanged();
         broken = true;
-        notifyObservers(this);
+        notifyObservers();
     }
 
     @Override
@@ -27,19 +27,19 @@ public class MachineComposite extends MachineComponent implements Observer {
             if (!isBroken())
                 setChanged();
         }
-        notifyObservers(this);
+        notifyObservers();
     }
     
     public void addComponent(MachineComponent mc) {
         if (mc.isBroken()) {
-            brokenComponents += 1;
             if (!isBroken()) {
                 setChanged();
             }
+            brokenComponents += 1;
         }
         mc.addObserver(this);
         components.add(mc);
-        notifyObservers(this);
+        notifyObservers();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MachineComposite extends MachineComponent implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        MachineComponent mc = (MachineComponent) arg;
+        MachineComponent mc = (MachineComponent) o;
         if (mc.isBroken()) {
             if (!isBroken())
                 setChanged();
@@ -59,7 +59,7 @@ public class MachineComposite extends MachineComponent implements Observer {
             if (!isBroken())
                 setChanged();
         }
-        notifyObservers(mc); // Push because the UI has to know the broken component.
+        notifyObservers();
     }
     
 }

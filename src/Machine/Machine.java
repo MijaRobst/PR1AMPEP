@@ -9,8 +9,7 @@ public class Machine extends MachineComponent {
         if (!broken)
             setChanged();
         broken = true;
-        // Push because the changed component has to travel to the tree's root.
-        notifyObservers(this);
+        notifyObservers();
     }
 
     @Override
@@ -18,7 +17,7 @@ public class Machine extends MachineComponent {
         if (broken)
             setChanged();
         broken = false;
-        notifyObservers(this);
+        notifyObservers();
     }
 
     @Override
