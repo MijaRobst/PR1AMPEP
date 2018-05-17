@@ -9,16 +9,7 @@ import java.util.Observer;
 public class MachineComposite extends MachineComponent implements Observer {
 
     private List<MachineComponent> components = new ArrayList<>();
-    private boolean broken = false; // Independent from components
-    private int brokenComponents = 0;
-    
-    @Override
-    public void setBroken() {
-        if (!isBroken())
-            setChanged();
-        broken = true;
-        notifyObservers();
-    }
+    private int brokenComponents = 0; // This MachineComponent not counted.
 
     @Override
     public void repair() {
